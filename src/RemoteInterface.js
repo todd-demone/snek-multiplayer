@@ -58,7 +58,12 @@ class RemoteInterface {
     client.setEncoding('utf8')
     this.clients.push(client)
     this.resetIdleTimer(client, MAX_IDLE_TIMEOUT / 2)
-
+    // Stretch exercise - broadcast message that new member has joined
+    this.clients.forEach(
+      member => {
+        if (member !== client) member.write('a new client joined the game.')
+      }
+    )
     if (this.newClientHandler) this.newClientHandler(client)
 
     client.on('data', this.handleClientData.bind(this, client))
